@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 //import static io.restassured.RestAssured.*;
 //import static org.hamcrest.Matchers.*;
 
-public class ApiTest {
+public class NayabAPITest {
 
     static {
         // Base URI for ReqRes API
