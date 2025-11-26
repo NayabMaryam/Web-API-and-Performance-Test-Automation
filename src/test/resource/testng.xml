@@ -4,6 +4,7 @@
         <classes>
             <class name="com.api.automation.ApiTest"/>
             <class name="com.api.automation.Api.ToobaAPITest"/>
+            <class name="com.api.automation.Api.MubashraAPITest"/>
         </classes>
     </test>
 </suite>
