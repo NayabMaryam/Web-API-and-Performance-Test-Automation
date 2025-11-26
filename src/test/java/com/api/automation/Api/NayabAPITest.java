@@ -2,63 +2,73 @@ package com.api.automation.Api;
 
 import io.restassured.RestAssured;
 import org.testng.annotations.Test;
-//
-//import static io.restassured.RestAssured.*;
-//import static org.hamcrest.Matchers.*;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
 
 public class NayabAPITest {
 
     static {
-        // Base URI for ReqRes API
-        RestAssured.baseURI = "https://reqres.in/api";
+        // Sets the base URL for all API requests
+        RestAssured.baseURI = "https://dummyjson.com";
     }
 
-    // ------------------ GET /users/2 ------------------
+    // Test Case 1: Validates GET /posts/1 returns correct post details
     @Test(priority = 1)
-    public void testGetUser() {
-//        given()
-//        .when().get("/users/2")
-//        .then().statusCode(200)
-//        .and().body("data.id", equalTo(2));
-//        System.out.println("GET /users/2 Passed");
+    public void testGetPost() {
+        given()
+        .when()
+            .get("/posts/1")
+        .then()
+            .log().all()
+            .statusCode(200)
+            .body("id", equalTo(1))
+            .body("title", notNullValue())
+            .body("body", notNullValue())
+            .body("userId", notNullValue());
     }
 
-    // ------------------ POST /users ------------------
+    // Test Case 2: Validates POST /posts/add successfully creates a new post
     @Test(priority = 2)
-    public void testCreateUser() {
-//        String jsonBody = "{ \"name\": \"Test\", \"job\": \"QA\" }";
-//
-//        given()
-//            .header("Content-type", "application/json")
-//            .body(jsonBody)
-//        .when().post("/users")
-//        .then().statusCode(201)
-//        .and().body("name", equalTo("Test"));
-//        System.out.println("POST /users Passed");
+    public void testCreatePost() {
+        String jsonBody = "{ \"title\": \"Nayab Test\", \"body\": \"Created via API\", \"userId\": 1 }";
+
+        given()
+            .header("Content-Type", "application/json")
+            .body(jsonBody)
+        .when()
+            .post("/posts/add")   // Correct endpoint for DummyJSON
+        .then()
+            .log().all()
+            .statusCode(201)
+            .body("title", equalTo("Nayab Test"))
+            .body("body", equalTo("Created via API"));
     }
 
-    // ------------------ PUT /users/2 ------------------
+    // Test Case 3: Validates PUT /posts/1 updates the post successfully
     @Test(priority = 3)
-    public void testUpdateUser() {
-//        String jsonBody = "{ \"name\": \"Updated\", \"job\": \"Lead\" }";
-//
-//        given()
-//            .header("Content-type", "application/json")
-//            .body(jsonBody)
-//        .when().put("/users/2")
-//        .then().statusCode(200)
-//        .and().body("name", equalTo("Updated"));
-//        System.out.println("PUT /users/2 Passed");
+    public void testUpdatePost() {
+        String jsonBody = "{ \"title\": \"Updated Title\", \"body\": \"Updated Content\" }";
+
+        given()
+            .header("Content-Type", "application/json")
+            .body(jsonBody)
+        .when()
+            .put("/posts/1")
+        .then()
+            .log().all()
+            .statusCode(200)
+            .body("title", equalTo("Updated Title"));
     }
 
-    // ------------------ DELETE /users/2 ------------------
+    // Test Case 4: Validates DELETE /posts/1 deletes the post successfully
     @Test(priority = 4)
-    public void testDeleteUser() {
-//        when().delete("/users/2")
-//        .then().statusCode(204);
-//        System.out.println("DELETE /users/2 Passed");
-  
+    public void testDeletePost() {
+        given()
+        .when()
+            .delete("/posts/1")
+        .then()
+            .log().all()
+            .statusCode(200);   // DummyJSON DELETE returns 200
     }
 }
-//NOTES:
-//  For running open terminal of project and type mvn clean test this will create a folder of surefire-reposts where you find the index.html 
